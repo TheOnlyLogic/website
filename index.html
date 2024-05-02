@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Instagram Posts</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <div id="insta-posts"></div>
+    
+    <script>
+        // Fetch Instagram posts
+        fetch('https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url&access_token=YOUR_ACCESS_TOKEN')
+            .then(response => response.json())
+            .then(data => {
+                // Display posts
+                const postsContainer = document.getElementById('insta-posts');
+                data.data.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.innerHTML = `
+                        <a href="${post.permalink}" target="_blank">
+                            <img src="${post.media_url}" alt="${post.caption}" />
+                        </a>
+                        <p>${post.caption}</p>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+</html>
